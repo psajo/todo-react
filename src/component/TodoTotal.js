@@ -1,0 +1,18 @@
+import PropTypes from 'prop-types';
+
+export default function TodoTotal(props) {
+    const {totalSize, completeSize, restSize} = calculate(props.todoList);
+
+    return (
+        <div>
+            {`전체 ${totalSize}, 완료 ${completeSize}, 미완료 ${restSize}`}
+        </div>
+    );
+}
+
+function calculate(todoList) {
+    const totalSize = todoList.length;
+    const completeSize = todoList.filter(item=>item.checked === true).length;
+    const restSize = totalSize - completeSize;
+    return {totalSize, completeSize, restSize};
+}
