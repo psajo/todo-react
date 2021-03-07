@@ -1,13 +1,18 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 
-export default function TodoSearch() {
-    const [state, setState] = useState({text:''});
+TodoSearch.prototype = {
+    dispatch: PropTypes.func,
+    text : PropTypes.string
+};
+
+export default function TodoSearch({dispatch}) {
+    const [{text}, setText] = useState({text:''});
     return (
         <div>
-            <input value={state.text} placeholder='검색하세요' onChange={(e) => {setState({text:e.target.value})}}/>
+            <input value={text} placeholder='검색하세요' onChange={(e) => {setText({text:e.target.value})}}/>
             <button onClick={()=>{
-                console.log(state.text);
+                dispatch({type:'SEARCH', text:text});
             }}>검색</button>
         </div>
     );

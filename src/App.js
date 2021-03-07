@@ -3,31 +3,33 @@ import TodoAdd from "./component/TodoAdd";
 import TodoList from "./component/TodoList";
 import TodoSearch from "./component/TodoSearch";
 import TodoTotal from './component/TodoTotal';
+import PropTypes from 'prop-types';
+
+App.prototype = { 
+  id : PropTypes.number,
+  checked: PropTypes.bool,
+  text: PropTypes.string,
+  dispatch: PropTypes.func,
+};
 
 const TodoContext = createContext('??');
-let id=0;
+let id=0;  
+JSON.parse(localStorage.getItem('todoList')).map(todo=>{
+  if(todo.id>id) {
+    id = todo.id;
+  }
+});
 
 function App() {
-  const [todoList, dispatch] = useReducer(reducer, [{
-      id: id++,
-      checked: false,
-      text:'123'
-    },
-    {
-      id: id++,
-      checked: true,
-      text:'456'
-    },
-  ]);
-  // const [todoList, setTodoList ] =useState([]); //할일 목록
-  console.log('todoList 크기 : '+todoList.length);
+  console.log('id '+ id);
+  const [todoList, dispatch] = useReducer(reducer, JSON.parse(localStorage.getItem('todoList')));
   
   return (
     <>
       <TodoContext.Provider value={[todoList, dispatch]}>
         <TodoTotal todoList={todoList}/>
-        <TodoSearch/>
-        <TodoAdd/>
+        <TodoSearch dispatch={dispatch}/>
+        <TodoAdd dispatch={dispatch}/>
         <TodoList/>
       </TodoContext.Provider>
     </>
@@ -35,23 +37,43 @@ function App() {
 }
 
 function reducer(state, action) {
+  let items=[];
   switch(action.type) {
     case 'ADD' :
-      return [
-        ...state,
+      items = [
         {
-          id: action.id,
+          id: id++,
           checked : false,
           text: action.text
-        }
+        },
+        ...state
       ];
+      localStorage.setItem('todoList',JSON.stringify(items));
+      return items;
+
     case 'UPDATE':
-      const rest = state.filter(item=>(item.id!==action.id));
-      return [...rest,{id:action.id, text:action.text,checked:action.checked}];
+      items = state.map(todo=>{
+        if(todo.id === action.id) {
+          return {id: action.id, text: action.text, checked: action.checked};
+        }
+        return todo;
+      });
+      localStorage.setItem('todoList',JSON.stringify(items));
+      return items;
+      
     case 'DELETE':
-      return [];
+      items = state.filter(todo=>todo.id!==action.id);
+      localStorage.setItem('todoList',JSON.stringify(items));
+      return items;
+
+    case 'SEARCH':
+      if(action.text ==='') {
+        items = JSON.parse(localStorage.getItem('todoList'));
+      }else {
+        items = state.filter(item=>item.text.indexOf(action.text)!== -1);
+      }
+      return items;
   }
 }
-
 
 export {App,TodoContext};

@@ -1,7 +1,11 @@
 import PropTypes from 'prop-types';
 
-export default function TodoTotal(props) {
-    const {totalSize, completeSize, restSize} = calculate(props.todoList);
+TodoTotal.propTypes = {
+    todoList : PropTypes.array
+};
+
+export default function TodoTotal({todoList}) {
+    const {totalSize, completeSize, restSize} = calculate(todoList);
 
     return (
         <div>
