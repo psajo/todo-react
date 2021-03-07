@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import {StyledButton} from '../App';
 
 TodoSearch.prototype = {
     dispatch: PropTypes.func,
@@ -11,9 +12,12 @@ export default function TodoSearch({dispatch}) {
     return (
         <div>
             <input value={text} placeholder='검색하세요' onChange={(e) => {setText({text:e.target.value})}}/>
-            <button onClick={()=>{
+            <StyledButton onClick={()=>{
                 dispatch({type:'SEARCH', text:text});
-            }}>검색</button>
+            }}>검색</StyledButton>
         </div>
     );
 }
+
+
+

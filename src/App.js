@@ -4,6 +4,7 @@ import TodoList from "./component/TodoList";
 import TodoSearch from "./component/TodoSearch";
 import TodoTotal from './component/TodoTotal';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
 App.prototype = { 
   id : PropTypes.number,
@@ -76,4 +77,37 @@ function reducer(state, action) {
   }
 }
 
-export {App,TodoContext};
+const StyledButton = styled.button`
+  /* 공통 스타일 */
+  display: inline-flex;
+  outline: none;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  padding-left: 1rem;
+  padding-right: 1rem;
+
+  /* 크기 */
+  height: 25px;
+  font-size: 15px;
+
+  /* 색상 */
+  background: ${(props) => props.background || "#228be6"};
+  /*
+  background: #228be6;
+  &:hover {
+    background: #339af0;
+  }
+  &:active {
+    background: #1c7ed6;
+  }*/
+
+  /* 기타 */
+  & + & {
+    margin-left: 1rem;
+  }
+`;
+
+export {App,TodoContext,StyledButton};

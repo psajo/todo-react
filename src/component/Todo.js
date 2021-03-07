@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import {StyledButton} from '../App';
 
 Todo.prototype = {
     id : PropTypes.number,
@@ -25,15 +26,15 @@ export default function Todo({id,checked,text,dispatch}) {
                         onChange={(e)=>setValues({id:values.id, checked:values.checked, text:e.target.value})}/>
                 }
             </td>
-            <td><button onClick={()=>{ 
+            <td><StyledButton background={'#22741C'} onClick={()=>{ 
                 setToggle({toggle:!toggle});
                 if(toggle) {
                     dispatch({type:'UPDATE',id:values.id, checked:values.checked, text:values.text})
                 }
-            }}>{toggle?'수정':'적용'}</button></td>
-            <td><button onClick={()=>{
+            }}>{toggle?'수정':'적용'}</StyledButton></td>
+            <td><StyledButton background='red' onClick={()=>{
                 dispatch({type:'DELETE',id:values.id})
-            }}>삭제</button></td>
+            }}>삭제</StyledButton></td>
         </tr>
     );
 }

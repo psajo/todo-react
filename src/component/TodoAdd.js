@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import {StyledButton} from '../App';
 
 TodoAdd.prototype = {
     dispatch : PropTypes.func,
@@ -29,10 +30,10 @@ export default function TodoAdd({dispatch}) {
                 <option value='숫자'>숫자</option>
                 <option value='문자'>문자</option>
             </select>
-            <button onClick={()=>{
+            <StyledButton onClick={()=>{
                 dispatch({type:'ADD', text:text})
                 setValue({text:''});
-            }}>추가</button>
+            }}>추가</StyledButton>
         </div>
     );
 }
