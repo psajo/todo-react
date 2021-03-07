@@ -4,7 +4,7 @@ import TodoList from "./component/TodoList";
 import TodoSearch from "./component/TodoSearch";
 import TodoTotal from './component/TodoTotal';
 
-const TodoContext = createContext('흠');
+const TodoContext = createContext('??');
 let id=0;
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
     },
     {
       id: id++,
-      checked: false,
+      checked: true,
       text:'456'
     },
   ]);
@@ -24,7 +24,7 @@ function App() {
   
   return (
     <>
-      <TodoContext.Provider value={dispatch}>
+      <TodoContext.Provider value={[todoList, dispatch]}>
         <TodoTotal todoList={todoList}/>
         <TodoSearch/>
         <TodoAdd/>
@@ -45,10 +45,9 @@ function reducer(state, action) {
           text: action.text
         }
       ];
-    case 'SHOW':
-      return [...state];
     case 'UPDATE':
-      return [];
+      const rest = state.filter(item=>(item.id!==action.id));
+      return [...rest,{id:action.id, text:action.text,checked:action.checked}];
     case 'DELETE':
       return [];
   }
