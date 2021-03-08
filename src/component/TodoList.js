@@ -1,6 +1,5 @@
 import Todo from './Todo';
 import {TodoContext} from '../App';
-import { useState } from 'react';
 
 export default function TodoList() {
     return (

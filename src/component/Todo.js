@@ -31,7 +31,7 @@ export default function Todo({id,checked,text,dispatch}) {
                 if(toggle) {
                     dispatch({type:'UPDATE',id:values.id, checked:values.checked, text:values.text})
                 }
-            }}>{toggle?'수정':'적용'}</StyledButton></td>
+            }}>{toggle?'적용':'수정'}</StyledButton></td>
             <td><StyledButton background='red' onClick={()=>{
                 dispatch({type:'DELETE',id:values.id})
             }}>삭제</StyledButton></td>

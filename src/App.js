@@ -1,4 +1,4 @@
-import { createContext, useEffect, useReducer, useState } from "react";
+import { createContext, useReducer } from "react";
 import TodoAdd from "./component/TodoAdd";
 import TodoList from "./component/TodoList";
 import TodoSearch from "./component/TodoSearch";
@@ -15,11 +15,20 @@ App.prototype = {
 
 const TodoContext = createContext('??');
 let id=0;  
-JSON.parse(localStorage.getItem('todoList')).map(todo=>{
-  if(todo.id>id) {
-    id = todo.id;
-  }
-});
+
+const emptyCheck = JSON.parse(localStorage.getItem('todoList'));
+
+if(emptyCheck) {
+  emptyCheck.map(todo=>{
+    if(todo.id>id) {
+      id = todo.id;
+    }
+    return todo;
+  });
+}else {
+  localStorage.setItem('todoList',JSON.stringify([]));
+  console.log('empty!');
+}
 
 function App() {
   console.log('id '+ id);
@@ -43,7 +52,7 @@ function reducer(state, action) {
     case 'ADD' :
       items = [
         {
-          id: id++,
+          id: ++id,
           checked : false,
           text: action.text
         },
@@ -74,6 +83,8 @@ function reducer(state, action) {
         items = state.filter(item=>item.text.indexOf(action.text)!== -1);
       }
       return items;
+    default:
+      return state;
   }
 }
 
